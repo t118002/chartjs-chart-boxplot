@@ -61,7 +61,7 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
 
   // eslint-disable-next-line class-methods-use-this,@typescript-eslint/explicit-module-boundary-types
   protected _transformStats<T>(target: any, source: S, mapper: (v: number) => T): void {
-    for (const key of ['min', 'max', 'median', 'q3', 'q1', 'mean']) {
+    for (const key of ['min', 'max', 'median', 'q3', 'q1', 'mean', 'best']) {
       const v = source[key as keyof IBaseStats];
       if (typeof v === 'number') {
         // eslint-disable-next-line no-param-reassign
@@ -150,9 +150,9 @@ export abstract class StatsBase<S extends IBaseStats, C extends Required<IBaseOp
   protected _toStringStats(b: S): string {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const f = (v: number) => (v == null ? 'NaN' : formatNumber(v, this.chart.options.locale!, {}));
-    return `(min: ${f(b.min)}, 25% quantile: ${f(b.q1)}, median: ${f(b.median)}, mean: ${f(b.mean)}, 75% quantile: ${f(
-      b.q3
-    )}, max: ${f(b.max)})`;
+    return `(min: ${f(b.min)}, 25% quantile: ${f(b.q1)}, median: ${f(b.median)}, mean: ${f(b.mean)}, best: ${f(
+      b.best
+    )}, 75% quantile: ${f(b.q3)}, max: ${f(b.max)})`;
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

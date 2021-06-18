@@ -38,6 +38,7 @@ export class Violin extends StatsBase<IViolinElementProps, IViolinElementOptions
     }
     this._drawOutliers(ctx);
     this._drawMeanDot(ctx);
+    this._drawBestDot(ctx);
 
     ctx.restore();
 
