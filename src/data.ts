@@ -28,6 +28,7 @@ export interface IBaseStats {
   q3: number;
   median: number;
   mean: number;
+  best: number;
   items: readonly number[];
   outliers: readonly number[];
 }
@@ -190,6 +191,7 @@ export function boxplotStats(arr: readonly number[] | Float32Array | Float64Arra
     max: r.max,
     median: r.median,
     mean: r.mean,
+    best: r.best,
     min: r.min,
     q1: r.q1,
     q3: r.q3,

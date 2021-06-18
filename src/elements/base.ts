@@ -180,6 +180,54 @@ export interface IStatsBaseOptions {
    * @indexable
    */
   meanBorderWidth: number;
+
+  /**
+   * item style used to render best dot
+   * @default circle
+   */
+  bestStyle:
+    | 'circle'
+    | 'triangle'
+    | 'rect'
+    | 'rectRounded'
+    | 'rectRot'
+    | 'cross'
+    | 'crossRot'
+    | 'star'
+    | 'line'
+    | 'dash';
+
+  /**
+   * radius used to best dots
+   * @default 3
+   * @scriptable
+   * @indexable
+   */
+  bestRadius: number;
+
+  /**
+   * background color for best dot
+   * @default see rectangle.backgroundColor
+   * @scriptable
+   * @indexable
+   */
+  bestBackgroundColor: string;
+
+  /**
+   * border color for best dot
+   * @default see rectangle.borderColor
+   * @scriptable
+   * @indexable
+   */
+  bestBorderColor: string;
+
+  /**
+   * border width for best dot
+   * @default 0
+   * @scriptable
+   * @indexable
+   */
+  bestBorderWidth: number;
 }
 
 export const baseDefaults = {
@@ -197,6 +245,10 @@ export const baseDefaults = {
   meanRadius: 3,
   meanBorderWidth: 1,
 
+  bestStyle: 'circle',
+  bestRadius: 3,
+  bestBorderWidth: 1,
+
   hitPadding: 2,
   outlierHitRadius: 4,
 };
@@ -208,6 +260,8 @@ export const baseRoutes = {
   itemBorderColor: 'borderColor',
   meanBackgroundColor: 'backgroundColor',
   meanBorderColor: 'borderColor',
+  bestBackgroundColor: 'backgroundColor',
+  bestBorderColor: 'borderColor',
 };
 
 export const baseOptionKeys = /* #__PURE__ */ (() => Object.keys(baseDefaults).concat(Object.keys(baseRoutes)))();
@@ -220,6 +274,7 @@ export interface IStatsBaseProps {
   items: number[];
   outliers: number[];
   mean: number;
+  best: number;
 }
 
 export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> extends Element<T, O> {
@@ -323,6 +378,33 @@ export class StatsBase<T extends IStatsBaseProps, O extends IStatsBaseOptions> e
       drawPoint(ctx, pointOptions, props.x, props.mean);
     } else {
       drawPoint(ctx, pointOptions, props.mean, props.y);
+    }
+
+    ctx.restore();
+  }
+
+  protected _drawBestDot(ctx: CanvasRenderingContext2D): void {
+    const vert = this.isVertical();
+    const props = this.getProps(['x', 'y', 'best']);
+    const { options } = this;
+    if (options.bestRadius <= 0 || props.best == null || Number.isNaN(props.best)) {
+      return;
+    }
+    ctx.save();
+    ctx.fillStyle = options.bestBackgroundColor;
+    ctx.strokeStyle = options.bestBorderColor;
+    ctx.lineWidth = options.bestBorderWidth;
+
+    const pointOptions = {
+      pointStyle: options.bestStyle,
+      radius: options.bestRadius,
+      borderWidth: options.bestBorderWidth,
+    };
+
+    if (vert) {
+      drawPoint(ctx, pointOptions, props.x, props.best);
+    } else {
+      drawPoint(ctx, pointOptions, props.best, props.y);
     }
 
     ctx.restore();

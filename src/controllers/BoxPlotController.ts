@@ -41,7 +41,7 @@ export class BoxPlotController extends StatsBase<IBoxPlot, Required<IBoxplotOpti
         numbers: {
           type: 'number',
           properties: (BarController.defaults as any).animations.numbers.properties.concat(
-            ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax', 'mean'],
+            ['q1', 'q3', 'min', 'max', 'median', 'whiskerMin', 'whiskerMax', 'mean', 'best'],
             boxOptionsKeys.filter((c) => !c.endsWith('Color'))
           ),
         },

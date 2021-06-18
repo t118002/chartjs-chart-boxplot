@@ -28,6 +28,7 @@ export interface IBoxAndWhiskerProps extends IStatsBaseProps {
   whiskerMin: number;
   whiskerMax: number;
   mean: number;
+  best: number;
 }
 
 export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhiskersOptions> {
@@ -41,6 +42,7 @@ export class BoxAndWiskers extends StatsBase<IBoxAndWhiskerProps, IBoxAndWhisker
     this._drawBoxPlot(ctx);
     this._drawOutliers(ctx);
     this._drawMeanDot(ctx);
+    this._drawBestDot(ctx);
 
     ctx.restore();
 
